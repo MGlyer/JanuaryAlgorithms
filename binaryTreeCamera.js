@@ -34,32 +34,9 @@ const binaryTreeCamera = (root) => {
       }
     }
 
-    if (node.staus < 1) {
-      if (left && left.status === 2 || right && right.status === 2) {
-        node.status += 1
-      }
+    if (left && left.status >= 2 || right && right.status >= 2) {
+      node.status += 1
     }
-
-    // if (left && !right) {
-    //   if ((!left.hasOwnProperty('camera') || !left.hasOwnProperty('watched'))) {
-    //     node.camera = true
-    //     count++
-    //   } else if (left.hasOwnProperty('camera')) node.watched = true
-    // } else if (right && !left) {
-    //   if ((!right.hasOwnProperty('camera') || !right.hasOwnProperty('watched'))) {
-    //     node.camera = true
-    //     count++
-    //   } else if (right.hasOwnProperty('camera')) node.watched = true
-    // } else if (left && right) {
-    //   if ((!left.hasOwnProperty('camera') || !left.hasOwnProperty('watched')) &&
-    //     (!right.hasOwnProperty('camera') || !right.hasOwnProperty('watched'))) {
-    //       node.camera = true
-    //       count++
-    //     } else if (left.hasOwnProperty('camera') || right.hasOwnProperty('camera')) {
-    //       node.watched = true
-    //     }
-    // }
-    
 
     return node
   }
