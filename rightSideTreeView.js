@@ -22,7 +22,9 @@ var rightSideView = function(root) {
 
 var rightSideView = function(root) {
   let view = []
+  let bserial = []
 
+  // depth first search version
   const dfs = (node, depth) => {
     if (!node) return
     let targetRow = view[depth] || []
@@ -34,10 +36,32 @@ var rightSideView = function(root) {
   }
 
   dfs(root, 0)
-  let answer = []
+  let dAnswer = []
   view.forEach((row) => {
-    answer.push(row[row.length-1])
+    dAnswer.push(row[row.length-1])
   })
 
-  return answer
+  //breadth first search version
+  let q = [root]
+
+  while(q.length > 0) {
+    let size = q.length
+    let row = []
+    for (let i = 0; i < size; i++) {
+      let curr = q[i]
+      if (!curr) continue
+      q.push(curr.left)
+      q.push(curr.right)
+      row.push(curr.val)
+    }
+    if (row.length) bserial.push(row)
+    q = q.slice(size)
+  }
+
+  let bAnswer = []
+  bserial.forEach(row => bAnswer.push(row[row.length-1]))
+
+  //dAnswer is dfs, bAnswer is bfs
+  return dAnswer
+  // return bAnswer
 };
