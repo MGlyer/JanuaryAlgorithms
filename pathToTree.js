@@ -1,5 +1,5 @@
 const pathsToTree = (arr) => {
-  let tree = {}
+  let tree = {files: []}
 
   const recurse = (path, ind, node) => {
     let item = path[ind]
@@ -13,12 +13,12 @@ const pathsToTree = (arr) => {
     }
   }
 
-  arr.forEach((path) => {
-    let path = path.split('/')
+  arr.forEach((filePath) => {
+    let path = filePath.split('/')
     recurse(path, 0, tree)
   })
 
-
+  return tree
 }
 
 var array = [
@@ -35,3 +35,6 @@ var array = [
 
   "animate.gif"
 ];
+let output = pathsToTree(array)
+console.log(output)
+console.log(output.d1.d2)
