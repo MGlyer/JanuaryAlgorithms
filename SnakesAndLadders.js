@@ -40,8 +40,50 @@ const optimalGame = (boardSize, snakes, ladders) => {
   }
 
   //add alternate edges
-  snakes.forEach((snake) => board.addEdge(snake[0], snake[1]))
-  ladders.forEach((ladder) => board.addEdge(ladder[0], ladder[1]))
+  snakes.forEach((snake) => board.addEdge(...snake))
+  ladders.forEach((ladder) => board.addEdge(...ladder))
 
-  //actual code
+
+  //////////
+  //actual code to find the optimal path, BFS
+  let q = [1]
+  let s = 0
+  let e = 1
+  board.updateCost(1, 0)
+
+  //bfs
+  while (s !== e) {
+    //for this section of the q
+    for (let i = s; i < e; i++) {
+      //rename i to square
+      let square = q[i]
+
+      //can update this based on game inputs.  2 dice? 1 die?
+      let roll = 6
+      while (roll > 0) {
+        //get the current cost of best path to starting square
+        let currCost = board.getCost(square)
+        let changed = board.updateCost(square+roll, currCost+1)
+
+        //if we had a better route here, put the newly updated node into the q
+        if (changed) q.push(square+roll)
+
+        //retrieve possible moves.  
+        let moves = board.edges.get(square)
+
+        //only go to second node if it is higher than the square (aka there is a ladder)
+        if (moves.length > 1 && moves[1] > square) {
+          let ladderChanged = board.updateCost(moves[1] + roll - 1, currCost+1)
+          if (ladderChanged) q.push(moves[1] + roll -1)
+        }
+
+        roll--
+      }
+    }
+
+    s = e
+    e = q.length
+  }
+
+  return board.getCost(board.numOfSquares)
 }
